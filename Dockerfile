@@ -4,6 +4,6 @@ COPY . .
 RUN bun install
  
 ARG PORT
-EXPOSE ${PORT:-3000}
+EXPOSE ${PORT:-8800}
  
-CMD ["bun", "src/index.ts"]
+CMD ["npx prisma generate","bun", "src/index.ts"]
