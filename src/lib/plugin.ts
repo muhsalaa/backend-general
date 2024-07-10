@@ -8,7 +8,7 @@ export const authPlugin = (app: Elysia) =>
     .use(
       jwt({
         name: JWT_NAME,
-        secret: Bun.env.JWT_SECRET!,
+        secret: process.env.JWT_SECRET!,
       })
     )
     .derive(async ({ jwt, cookie: { accessToken }, set }) => {
