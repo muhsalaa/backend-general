@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Account {
+  id                 String    @id @default(cuid())
+  userId             String
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  user               User      @relation(fields: [userId], references: [id])
+
+  @@unique([providerId, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailConfirmationToken String?   @map("email_confirmation_token")
+  resetPasswordToken     String?   @map("reset_password_token")
+  refreshToken           String?   @map("refresh_token")
+  password               String?
+  emailVerified          DateTime? @map("email_verified")
+  image                  String?
+  createdAt              DateTime  @default(now()) @map("created_at")
+  accounts               Account[]
+  sessions               Session[]
+  cart                   Cart[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  image       String
+  name        String
+  description String
+  price       Int
+  discount    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Cart        Cart[]
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  productId String
+  userId    String?
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+  User    User?   @relation(fields: [userId], references: [id])
+
+  @@unique([productId, userId])
+}
