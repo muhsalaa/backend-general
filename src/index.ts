@@ -8,8 +8,7 @@ const app = new Elysia({ prefix: "/api" })
   .use(
     cors({
       origin: true,
-      methods: "*",
-      preflight: true,
+      allowedHeaders: "*",
     })
   )
   .use(productRoutes)

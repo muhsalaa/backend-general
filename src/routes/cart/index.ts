@@ -10,35 +10,17 @@ export const cartRoutes = new Elysia()
       where: {
         userId: c.user.id,
       },
+      include: {
+        product: true,
+      },
     });
     return cart;
   })
-  .post(
-    "/cart",
-    async (c) => {
-      const { productId, quantity } = c.body;
-      console.log({
-        userId: c.user.id,
-        productId,
-        quantity: quantity || 1,
-      });
-
-      const cart = await prisma.cart.create({
-        data: {
-          userId: c.user.id,
-          productId,
-          quantity: quantity || 1,
-        },
-      });
-      return cart;
-    },
-    {
-      body: addToCartBodySchema,
-    }
-  )
   .put(
     "/cart",
     async (c) => {
+      console.log(c.body);
+
       const { quantity, productId } = c.body;
       const currentCart = await prisma.cart.findFirst({
         where: {
@@ -48,22 +30,42 @@ export const cartRoutes = new Elysia()
       });
 
       if (!currentCart) {
-        c.set.status = "Bad Request";
-        throw new Error("Cart item not exist");
-      }
-
-      const cart = await prisma.cart.update({
-        where: {
-          productId_userId: {
+        const cart = await prisma.cart.create({
+          data: {
             userId: c.user.id,
             productId,
+            quantity: +quantity || 1,
           },
-        },
-        data: {
-          quantity: currentCart.quantity + quantity,
-        },
-      });
-      return cart;
+        });
+
+        return cart;
+      }
+
+      if (+quantity === 0) {
+        await prisma.cart.delete({
+          where: {
+            productId_userId: {
+              userId: c.user.id,
+              productId,
+            },
+          },
+        });
+        return;
+      } else {
+        await prisma.cart.update({
+          where: {
+            productId_userId: {
+              userId: c.user.id,
+              productId,
+            },
+          },
+          data: {
+            quantity: +quantity,
+          },
+        });
+      }
+
+      return { status: "success" };
     },
     {
       body: patchCartBodySchema,
