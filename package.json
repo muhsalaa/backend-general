@@ -8,7 +8,7 @@
     "deploy": "wrangler deploy --minify src/index.ts",
     "start": "bun src/index.ts",
     "build": "prisma generate",
-    "postinstall": "prisma generate --schema=prisma/schema.prisma"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@elysiajs/cookie": "^0.8.0",
