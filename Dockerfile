@@ -1,8 +1,7 @@
 FROM oven/bun:1
 WORKDIR /app
-RUN bun install
-RUN bunx prisma generate
 COPY . .
+RUN bun install
 
 ARG PORT
 EXPOSE ${PORT:-8800}
