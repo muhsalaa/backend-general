@@ -7,7 +7,6 @@
     "prisma:push": "bunx prisma db push",
     "deploy": "wrangler deploy --minify src/index.ts",
     "start": "bun src/index.ts",
-    "build": "prisma generate",
     "postinstall": "prisma generate"
   },
   "dependencies": {
