@@ -13,14 +13,14 @@
     "@elysiajs/cookie": "^0.8.0",
     "@elysiajs/cors": "^1.0.4",
     "@elysiajs/jwt": "^1.0.2",
-    "@prisma/client": "^5.16.2",
+    "@prisma/client": "5.7.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "elysia": "latest"
   },
   "devDependencies": {
     "bun-types": "latest",
-    "prisma": "^5.16.2"
+    "prisma": "5.7.0"
   },
   "module": "src/index.js"
 }
