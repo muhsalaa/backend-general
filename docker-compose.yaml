@@ -1,0 +1,9 @@
+services:
+  api:
+    build: .
+    container_name: api_central
+    ports:
+      - "8800:8800"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules

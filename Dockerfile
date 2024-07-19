@@ -2,14 +2,16 @@ FROM oven/bun:1.1.20
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY package.json bun.lockb .
 
 RUN bun install
 
+COPY . .
 
 RUN bun prisma generate
 
 ARG PORT
+
 EXPOSE ${PORT:-8800}
  
-CMD ["bun", "src/index.ts"]
+CMD ["bun", "start"]
