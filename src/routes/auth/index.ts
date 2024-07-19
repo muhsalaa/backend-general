@@ -57,6 +57,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
         maxAge: ACCESS_TOKEN_EXP,
         path: "/",
         sameSite: "none",
+        secure: true,
       });
 
       // create refresh token
