@@ -2,11 +2,10 @@ FROM oven/bun:1.1.20
 
 WORKDIR /usr/src/app
 
-COPY package.json .
+COPY . .
 
 RUN bun install
 
-COPY . .
 
 RUN bun prisma generate
 
