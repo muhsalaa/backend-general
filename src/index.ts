@@ -16,6 +16,7 @@ const app = new Elysia({ prefix: "/api" })
   .use(cartRoutes)
   .listen(8800);
 
+console.log(`🦊 Elysia is running yooo asdfasdf asdfa sdf as `);
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 );

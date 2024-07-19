@@ -1,10 +1,13 @@
-FROM oven/bun:latest
+FROM oven/bun:1.1.20
 
 WORKDIR /usr/src/app
 
-COPY . .
+COPY package.json .
 
 RUN bun install
+
+COPY . .
+
 RUN bun prisma generate
 
 ARG PORT
